@@ -68,13 +68,7 @@ def db_find_e(db_name, key=None, fields=None):
 
     try:
         db_result_it = db_find_it(db_name, key, fields)
-        result = []
-        idx = 0
-        cfg.logger.debug('to iter')
-        for each_result in db_result_it:
-            cfg.logger.debug('idx: %s each_result: %s', idx, each_result)
-            result.append(each_result)
-            idx += 1
+        result = list(db_result_it)
     except Exception as e:
         cfg.logger.error('unable to db_find: db_name: %s e: %s', db_name, e)
 

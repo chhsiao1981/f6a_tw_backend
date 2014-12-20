@@ -152,12 +152,9 @@ def _query_data(the_str, the_limit):
     for idx in ["name", "en_name", "indication", "permit"]:
         query = {} if not the_str else {idx: {"$regex": the_str}}
         each_db_result = util.db_find('f6a_tw_backend', query)
-        cfg.logger.debug('after db_find_it: idx: %s query: %s', idx, query)
         if the_limit:
             each_db_result = each_db_result[:the_limit]
-        cfg.logger.debug('to list: idx: %s query: %s', idx, query)
         db_results += each_db_result
-        cfg.logger.debug('after list: idx: %s query: %s', idx, query)
 
     if the_limit:
         db_results = db_results[:the_limit]
