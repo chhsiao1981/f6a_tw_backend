@@ -6,6 +6,12 @@ Setup
 virtualenv __
 pip install -r requirements.django.txt
 
+./scripts_op/run_django.sh development.txt 9002
+
+you should be able to see
+
+http://localhost:9002/api/default
+
 
 Introduction
 -----
