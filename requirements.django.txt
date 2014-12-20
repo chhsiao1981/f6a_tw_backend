@@ -18,3 +18,4 @@ python-openid==2.2.5
 requests==2.4.3
 requests-oauthlib==0.4.2
 oauthlib==0.6.3
+uwsgi==2.0.8
