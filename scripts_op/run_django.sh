@@ -19,4 +19,4 @@ python manage.py syncdb
 
 python manage.py collectstatic --noinput
 
-uwsgi --module f6a_tw_backend.main_django:application --http localhost:9006 --gevent 100 --set ini=${ini_filename} --set port=${port}
+uwsgi --module f6a_tw_backend.main_django:application --http 0.0.0.0:9006 --gevent 100 --set ini=${ini_filename} --set port=${port}
