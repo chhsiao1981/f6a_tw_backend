@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+
+import ujson as json
+import pandas as pd
+import numpy as np
+import re
+
+from {{package}}.constants import *
+from {{package}} import cfg
+from {{package}} import util
+from {{package}} import util_pd
+from {{package}} import util_lock
+
+
+def {{module_name}}():
+    pass

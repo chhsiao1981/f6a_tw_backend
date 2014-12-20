@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+
+from {{package}}.constants import *
+
+import unittest
+import logging
+
+from {{package}} import wsgi
+
+
+class TestWsgi(unittest.TestCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass

@@ -1,0 +1,15 @@
+# -*- coding: utf-8 -*-
+
+from {{package}}.constants import *
+from {{package}}.django_constants import *
+
+from django.conf.urls import patterns, url
+
+from {{package}}.rest import views
+
+urlpatterns = patterns(
+    '',
+    url(r'^logout/?$', '{{package}}.social_auth.views.logout'),
+    url(r'^profile/?$', '{{package}}.social_auth.views.profile'),
+    url(r'^complete/(?P<backend>' + DJANGO_URL_NO_SLASH_REGEX + r')/?$', '{{package}}.social_auth.views.complete'),
+)

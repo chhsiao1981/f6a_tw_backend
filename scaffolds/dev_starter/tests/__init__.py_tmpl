@@ -1,0 +1,14 @@
+# -*- coding: utf-8 -*-
+
+from {{package}}.constants import *
+
+import unittest
+import logging
+
+
+def setup():
+    pass
+
+
+def teardown():
+    pass

@@ -1,0 +1,15 @@
+# -*- coding: utf-8 -*-
+
+from {{package}}.constants import *
+from {{package}}.django_constants import *
+
+import unittest
+import logging
+
+
+def setup():
+    pass
+
+
+def teardown():
+    pass

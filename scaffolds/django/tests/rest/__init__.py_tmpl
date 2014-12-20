@@ -1,0 +1,12 @@
+# -*- coding: utf-8 -*-
+
+from {{package}}.constants import *
+from {{package}}.django_constants import *
+
+
+def setup():
+    pass
+
+
+def teardown():
+    pass
