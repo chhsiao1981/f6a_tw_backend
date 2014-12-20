@@ -149,12 +149,19 @@ def _query_data(the_str, the_limit):
     cfg.logger.debug('the_str: (%s, %s), the_limit: (%s, %s)', the_str, the_str.__class__.__name__, the_limit, the_limit.__class__.__name__)
 
     db_results = []
-    for idx in ["name", "en_name", "indication", "permit"]:
-        query = {} if not the_str else {idx: {"$regex": the_str}}
-        each_db_result = util.db_find('f6a_tw_backend', query)
+    if not the_str:
+        db_result_it = util.db_find_it('f6a_tw_backend', {})
         if the_limit:
-            each_db_result = each_db_result[:the_limit]
-        db_results += each_db_result
+            db_result_it = db_result_it.limit(the_limit)
+
+        db_results = list(db_result_it)
+    else:
+        for idx in ["name", "en_name", "indication", "permit"]:
+            query = {} if not the_str else {idx: {"$regex": the_str}}
+            each_db_result_it = util.db_find_it('f6a_tw_backend', query)
+            if the_limit:
+                each_db_result_it = each_db_result_it.limit(the_list)
+            db_results += list(each_db_result_it)
 
     if the_limit:
         db_results = db_results[:the_limit]
