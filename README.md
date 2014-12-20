@@ -1,20 +1,10 @@
-backend_template
+f6a_tw_backend
 ================
 
-
-Usage
------
-git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_dev.sh
-
-* start: ./scripts/init_starter.sh
-* start with django: ./scripts/init_django.sh
-* create a module: ./scripts/dev_module.sh
-* create a class: ./scripts/dev_class.sh
-
-
-Django
+Setup
 ------
-git clone https://github.com/chhsiao1981/backend_template.git .; ./scripts/init_dev.sh; . __/bin/activate; ./scripts/init_starter.sh; ./scripts/init_django.sh
+virtualenv __
+pip install -r requirements.django.txt
 
 
 Introduction

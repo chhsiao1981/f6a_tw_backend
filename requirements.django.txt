@@ -6,7 +6,6 @@ gunicorn==19.1.0
 ujson==1.33
 pytz==2014.4
 pep8==1.5.7
-pandas==0.14.1
 pymongo==2.7.2
 simplejson==3.6.0
 Beaker==1.6.4
