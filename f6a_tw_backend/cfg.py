@@ -18,17 +18,9 @@ config = {}
 _mongo_map = {
     'lock': 'lock',
     'f6a_tw_backend': 'f6a_tw_backend',
-    'f6a_tw_backend2': 'f6a_tw_backend',
-    'f6a_tw_backend3': 'f6a_tw_backend',
-    'f6a_tw_backend4': 'f6a_tw_backend',
-    'f6a_tw_backend5': 'f6a_tw_backend'
 }
 
 _ensure_index = {
-    'f6a_tw_backend2': [('name', pymongo.ASCENDING)],
-    'f6a_tw_backend3': [('en_name', pymongo.ASCENDING)],
-    'f6a_tw_backend4': [('indication', pymongo.ASCENDING)],
-    'f6a_tw_backend5': [('permit', pymongo.ASCENDING)],
 }
 
 _ensure_unique_index = {

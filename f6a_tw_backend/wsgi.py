@@ -15,7 +15,7 @@ application = None
 
 
 def init_django_settings_module(settings):
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "f6a_tw_backend.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings)
 
 
 def init_application():

@@ -5,7 +5,7 @@ from f6a_tw_backend.constants import *
 
 import gevent.monkey; gevent.monkey.patch_all()
 
-import multiprocessing
+# import multiprocessing
 
 import gunicorn.app.base
 from gunicorn.six import iteritems
@@ -14,15 +14,22 @@ import re
 
 import argparse
 import sys
+import logging
 
 from f6a_tw_backend import cfg
 from f6a_tw_backend import util
 from f6a_tw_backend import wsgi
 from f6a_tw_backend import settings
+import uwsgi
 
+application = None
+
+logging.warning('sys.argv: %s', sys.argv)
+logging.warning('uwsgi: %s', uwsgi.opt)
 
 def _number_of_workers():
-    return multiprocessing.cpu_count()
+    return 2
+    # return multiprocessing.cpu_count()
 
 
 class App(gunicorn.app.base.BaseApplication):
@@ -33,7 +40,9 @@ class App(gunicorn.app.base.BaseApplication):
 
     def load_config(self):
         config = dict([(key, value) for key, value in iteritems(self.options)
-                       if key in self.cfg.settings and value is not None and value.__class__.__name__ == 'str'])
+                       if key in self.cfg.settings and value is not None])
+
+        cfg.logger.debug('self.cfg.settings: %s config: %s', self.cfg.settings, config)
         for key, value in iteritems(config):
             self.cfg.set(key.lower(), value)
 
@@ -67,23 +76,28 @@ def _init_ini_file(ini_filename):
 
 
 def _main():
-    (error_code, args) = parse_args()
+    global application
+    # (error_code, args) = parse_args()
 
-    error_log = args.error_log or 'log.%s.err.txt' % (args.port)
-    access_log = args.access_log or 'log.%s.access.txt' % (args.port)
+    logging.warning('main_django._main: start')
 
-    cfg.init({'ini_filename': args.ini, 'bind': '0.0.0.0:%s' % (args.port), 'worker_class': 'gevent', 'reload': args.reload, 'errorlog': error_log, 'accesslog': access_log})
+    opt = uwsgi.opt
 
-    _init_ini_file(args.ini)
+    port = opt.get('port', '')
+    error_log = opt.get('error_log', 'log.%s.err.txt' % (port))
+    access_log = opt.get('access_log', 'log.%s.access.txt' % (port))
+
+    cfg.init({'ini_filename': opt.get('ini', ''), 'bind': '0.0.0.0:%s' % (uwsgi), 'worker_class': 'gevent', 'worker_connections': 10, 'reload': opt.get('reload', False), 'errorlog': error_log, 'accesslog': access_log})
+
+    _init_ini_file(opt.get('ini', ''))
 
     (mongo_host, mongo_port) = util.deserialize_host_port(cfg.config.get('mongo_server_hostname', 'localhost'), default_port=27017)
-    mongoengine.connect('f6a_tw_backend', host=mongo_host, port=mongo_port)
+
+    # mongoengine.connect('f6a_tw_backend', host=mongo_host, port=mongo_port)
 
     wsgi.init_django_settings_module('f6a_tw_backend.settings')
     wsgi.init_application()
 
-    App(cfg.config).run()
+    application = wsgi.application
 
-
-if __name__ == '__main__':
-    _main()
+_main()
