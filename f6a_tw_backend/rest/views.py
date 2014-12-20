@@ -59,7 +59,7 @@ def _query_data(the_str, the_limit):
     cfg.logger.debug('the_str: (%s, %s), the_limit: (%s, %s)', the_str, the_str.__class__.__name__, the_limit, the_limit.__class__.__name__)
 
     db_results = []
-    query = {} if not the_str else {"$regex": "/" + the_str + "/"}
+    query = {} if not the_str else {"$regex": the_str}
     for idx in ["name", "en_name", "indication", "permit"]:
         each_db_result_it = util.db_find_it('f6a_tw_backend', {idx: query})
         if the_limit:
