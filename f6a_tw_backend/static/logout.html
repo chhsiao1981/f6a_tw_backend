@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+  <!-- BEGIN Pre-requisites -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      var po = document.createElement('script');
+      po.type = 'text/javascript';
+      po.async = true;
+      po.src = 'https://plus.google.com/js/client:plusone.js?onload=start';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(po, s);
+    })();
+  </script>
+  <!-- END Pre-requisites -->
+</head>
+<body>
+  <button id="homeButton">Home</button>
+  <button id="signoutButton">Signout</button>
+  <div id="result"></div>
+
+  <!-- Last part of BODY element in file index.html -->
+  <script type="text/javascript">
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    function getCookie(name) {
+      var value = "; " + document.cookie;
+      var parts = value.split("; " + name + "=");
+      if (parts.length == 2) return parts.pop().split(";").shift();
+    }
+
+    function signOutCallback(event) {
+      var access_token_obj = gapi.auth.getToken()
+      console.log('access_token_obj:', access_token_obj)
+
+      if(access_token_obj) {
+        var access_token = access_token_obj.access_token
+        console.log('access_token:', access_token)
+        var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' + access_token;
+
+        $.ajax({
+          type: 'GET',
+          url: revokeUrl,
+          async: false,
+          contentType: "application/json",
+          dataType: 'jsonp',
+          success: function(nullResponse) {
+            // Do something now that user is disconnected
+            // The response is always undefined.
+            console.log('revoke token successfully')
+          },
+          error: function(e) {
+            // Handle the error
+            console.log('unable to revoke token: e:', e);
+            // You could point users to manually disconnect if unsuccessful
+            // https://plus.google.com/apps
+          }
+        });
+      }
+      $.ajax({
+        beforeSend: function(xhr, settings) {
+          var csrftoken = getCookie('csrftoken');
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+        },
+        type: 'POST',
+        url: '/auth/logout/',
+        success: function(result) {
+          console.log('after post to server:', result);
+          window.location.href = result.url
+        },
+        processData: true,
+        data: {}
+      });
+    }
+
+    function signInCallback(authResult) {
+      if (authResult['code']) {
+        console.log('authResult:', authResult);
+        // Hide the sign-in button now that the user is authorized, for example:
+        $('#signinButton').attr('style', 'display: none');
+
+        // Send the code to the server
+        $.ajax({
+          type: 'POST',
+          url: '/auth/complete/google-plus/',
+          contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+          success: function(result) {
+            // Handle or verify the server response if necessary.
+
+            // Prints the list of people that the user has allowed the app to know
+            // to the console.
+            console.log('after post to server:', result);
+            window.location.href = result.url
+            //if (result['profile'] && result['people']){
+            //  $('#results').html('Hello ' + result['profile']['displayName'] + '. You successfully made a server side call to people.get and people.list');
+            //} else {
+            //  $('#results').html('Failed to make a server-side call. Check your configuration and console.');
+            //}
+          },
+          processData: true,
+          data: {"code": authResult['code'], "access_token": authResult["access_token"]},
+        });
+      } else if (authResult['error']) {
+        // There was an error.
+        // Possible error codes:
+        //   "access_denied" - User denied access to your app
+        //   "immediate_failed" - Could not automatially log in the user
+        console.log('There was an error: ' + authResult);
+      }
+    }
+
+    $(document).ready(function() {
+        $('#signoutButton').on('click', signOutCallback)
+      }
+    )
+  </script>
+</body>
+</html>

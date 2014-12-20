@@ -1,0 +1,8 @@
+# -*- coding: utf-8 -*-
+
+S_OK = 0
+S_ERR = 999999999
+
+SESSION_EXPIRE_TIMESTAMP = 86400
+
+HTTP_TIMEOUT = 60
