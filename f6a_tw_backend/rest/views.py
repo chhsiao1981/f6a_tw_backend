@@ -54,6 +54,8 @@ class PathView(APIView):
 
 
 def _query_data(the_str, the_limit):
+    if the_str.__class__.__name__ == 'unicode':
+        the_str = the_str.encode('utf-8')
     cfg.logger.debug('the_str: (%s, %s), the_limit: (%s, %s)', the_str, the_str.__class__.__name__, the_limit, the_limit.__class__.__name__)
 
     db_results = []
