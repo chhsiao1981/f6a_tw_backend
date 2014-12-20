@@ -14,6 +14,7 @@ from calendar import timegm
 import arrow
 from subprocess import Popen, PIPE
 import string
+import re
 
 from f6a_tw_backend import cfg
 
@@ -67,7 +68,13 @@ def db_find_e(db_name, key=None, fields=None):
 
     try:
         db_result_it = db_find_it(db_name, key, fields)
-        result = list(db_result_it)
+        result = []
+        idx = 0
+        cfg.logger.debug('to iter')
+        for each_result in db_result_it:
+            cfg.logger.debug('idx: %s each_result: %s', idx, each_result)
+            result.append(each_result)
+            idx += 1
     except Exception as e:
         cfg.logger.error('unable to db_find: db_name: %s e: %s', db_name, e)
 
@@ -92,15 +99,16 @@ def db_find_it_e(db_name, key=None, fields=None):
 
     result = []
     try:
+        cfg.logger.debug('db_name: %s config: %s key: %s fields: %s', db_name, cfg.config.get(db_name), key, fields)
         if key is None:
             result = cfg.config.get(db_name).find(fields=fields)
         else:
-            result = cfg.config.get(db_name).find(key, fields=fields)
+            result = cfg.config.get(db_name).find(spec=key, fields=fields)
     except Exception as e:
-        cfg.logger.error('unable to db_find_it: db_name: % key: %s', db_name, key)
+        cfg.logger.error('unable to db_find_it: db_name: %s key: %s e: %s', db_name, key, e)
 
         error_code = S_ERR
-        error_msg = 'unable to db_find_it: db_name: %s key: %s' % (db_name, key)
+        error_msg = 'unable to db_find_it: db_name: %s key: %s e: %s' % (db_name, key, e)
         result = None
 
         _db_restart_mongo(db_name, e)
@@ -129,6 +137,7 @@ def db_insert_e(db_name, val):
     try:
         result = cfg.config.get(db_name).insert(val, manipulate=False, ordered=False)
     except Exception as e:
+        cfg.logger.error('unable to insert: db_name: %s', db_name)
         cfg.logger.error('unable to insert: db_name: %s e: %s', db_name, e)
         result = []
         error_code = S_ERR
