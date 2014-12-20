@@ -11,6 +11,7 @@ urlpatterns = patterns(
     '',
     url(r'^default/$', views.DefaultView.as_view()),
     url(r'^default$', views.DefaultView.as_view()),
+    url(r'^query$', views.QueryView.as_view()),
     url(r'^default/detail/(?P<pk>' + DJANGO_URL_VAR_REGEX + r')/$', views.DefaultDetailView.as_view()),
     url(r'^default/detail/(?P<pk>' + DJANGO_URL_VAR_REGEX + r')$', views.DefaultDetailView.as_view()),
     url(r'^(?P<path>' + DJANGO_URL_PATH_REGEX + r')$', views.PathView.as_view()),
