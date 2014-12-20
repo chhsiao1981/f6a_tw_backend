@@ -26,7 +26,7 @@ class QueryView(APIView):
     def get(self, request, format=None):
         data = request.GET.dict()
         the_str = data.get('str', '')
-        the_limit = data.get('limit', 0)
+        the_limit = util._int(data.get('limit', 0))
 
         the_list = _query_data(the_str, the_limit)
 
