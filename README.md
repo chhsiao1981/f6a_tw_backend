@@ -3,7 +3,7 @@ f6a_tw_backend
 
 Setup
 ------
-virtualenv __
+virtualenv __; . __/bin/activate
 pip install -r requirements.django.txt
 
 ./scripts_op/run_django.sh development.txt 9002
