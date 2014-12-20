@@ -81,7 +81,7 @@ def db_find_e(db_name, key=None, fields=None):
 
 
 def db_find_it(db_name, key=None, fields=None):
-    (error_code, error_msg, result) = db_find_it(db_name, key, fields)
+    (error_code, error_msg, result) = db_find_it_e(db_name, key, fields)
 
     return result
 

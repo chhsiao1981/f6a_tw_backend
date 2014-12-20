@@ -58,8 +58,8 @@ def _query_data(the_str, the_limit):
 
     db_results = []
     query = {} if not the_str else {"$regex": "/" + the_str + "/"}
-    for idx in ["name", "en_name", "indication"]:
-        each_db_result_it = data_util.db_find_it('f6a_tw_backend', {idx: query})
+    for idx in ["name", "en_name", "indication", "permit"]:
+        each_db_result_it = util.db_find_it('f6a_tw_backend', {idx: query})
         if the_limit:
             each_db_result_it = each_db_result_it.limit(the_limit)
         db_results += list(each_db_result_it)
