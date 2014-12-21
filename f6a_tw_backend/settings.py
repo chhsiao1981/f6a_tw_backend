@@ -44,12 +44,14 @@ INSTALLED_APPS = (
     'f6a_tw_backend',
     'f6a_tw_backend.rest',
     'f6a_tw_backend.social_auth',
+    'corsheaders',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -119,6 +121,10 @@ REST_FRAMEWORK = {
 
     'PAGINATE_BY': 10,
 }
+
+# CORS
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 # mongo-engine
 
