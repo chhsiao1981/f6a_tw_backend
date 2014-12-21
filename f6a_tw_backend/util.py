@@ -30,7 +30,7 @@ def db_find_one(db_name, key, fields=None):
 
 def db_find_one_e(db_name, key, fields=None):
     if fields is None:
-        fields = {'id': False}
+        fields = {'_id': False}
 
     error_code = S_OK
     error_msg = ''
@@ -88,6 +88,9 @@ def db_find_it(db_name, key=None, fields=None):
 
 
 def db_find_it_e(db_name, key=None, fields=None):
+    if fields is None:
+        fields = {'_id': False}
+
     error_code = S_OK
     error_msg = ''
 

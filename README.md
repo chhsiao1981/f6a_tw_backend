@@ -3,50 +3,31 @@ f6a_tw_backend
 
 Setup
 ------
+git submodule update --init --recursive
+
 virtualenv __; . __/bin/activate
 pip install -r requirements.django.txt
 
+python -m f6a_tw_backend.csv_to_mongo -i development.ini -f data/dataset/36.csv
+
 ./scripts_op/run_django.sh development.txt 9002
 
-you should be able to see
+you should be able to do
 
-http://localhost:9002/api/default
-
-
+http://localhost:9002/api/query?str=<query string>&limit=<limit>
 
 
 Introduction
------
-This template intends to efficiently develop with the following libraries:
+------
+這是根據
 
-* pcreate (scaffolding, from pylons pyramid)
-* type / str / unicode
-* timestamp (by millisecond) / sec_timestamp / datetime / arrow
-* sniffer / nosetests (autotest)
-* pymongo (db)
-* grequests (http post/get)
-* ujson (json)
-* argparse
-* pandas
-* lock
-* send email
-* oauth2
-* django
-* django-rest-framework
+https://github.com/kiang/data.fda.gov.tw
 
-All are welcome to improve this template
+裡的"全部藥品許可證資料集"的資料
 
+所提供的 api.
 
-Django
------
-1. settings is set in [{{package}}:django] in .ini (with key lowercased)
+目前有以下的 api:
 
-
-python-social-auth
------
-1. For now, social-auth is for authentication only.
-2. need to change data-clientid to the corresponding clientid in /static/login.html
-3. need to change social\_auth\_google\_plus\_key and social\_auth\_google\_plus\_secret in .ini
-4. The token on client-side should be revoked immediately once the ajax to login complete (success or error).
-5. Once the ajax to login successfully complete, the response return \{id, username, first\_name, last\_time, url\}
-6. tested /auth/complete/google-plus (/static/login.html)
+* /api/query?str=<query string>&limit=<limit>
+  查詢中文藥名, 英文藥名, 許可證字號, 適應症

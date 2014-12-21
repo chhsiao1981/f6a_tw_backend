@@ -160,7 +160,7 @@ def _query_data(the_str, the_limit):
             query = {} if not the_str else {idx: {"$regex": the_str}}
             each_db_result_it = util.db_find_it('f6a_tw_backend', query)
             if the_limit:
-                each_db_result_it = each_db_result_it.limit(the_list)
+                each_db_result_it = each_db_result_it.limit(the_limit)
             db_results += list(each_db_result_it)
 
     if the_limit:
