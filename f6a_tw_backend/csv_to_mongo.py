@@ -23,12 +23,12 @@ def csv_to_mongo(filename):
 
     the_list = util_pd.df_to_dict_list(df)
 
-    '''
     for (idx, each_dict) in enumerate(the_list):
-        cfg.logger.debug('to insert: %s: %s', idx, util.json_dumps(each_dict))
-    '''
+        cfg.logger.debug('%s: %s', idx, util.json_dumps(each_dict))
 
     cfg.logger.debug('to db_insert: the_list: %s', len(the_list))
+
+    util.db_force_remove('f6a_tw_backend', {})
 
     util.db_insert('f6a_tw_backend', the_list)
 
